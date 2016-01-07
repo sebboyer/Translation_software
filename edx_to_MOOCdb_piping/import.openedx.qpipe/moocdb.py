@@ -49,7 +49,8 @@ class MOOCdb(object):
                           'problem_max_submission',
                           'problem_max_duration',
                           'problem_weight',
-                          'resource_id'],
+                          'resource_id',
+                          'problem_week'],
 
               'submissions':['submission_id',
                              'user_id',
