@@ -49,7 +49,7 @@ print '**Processing events**'
 
 n_rows=check_output(["wc", "-l",cfg.EDX_TRACK_EVENT])
 n_rows=n_rows.split(" ")
-n_rows=int(n_rows[1])
+n_rows=int(n_rows[0])
 
 Extract=extractor.get_events()
 

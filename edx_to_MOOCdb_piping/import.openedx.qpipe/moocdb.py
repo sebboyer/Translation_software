@@ -15,7 +15,8 @@ class MOOCdb(object):
                                  'observed_event_ip',
                                  'observed_event_os',
                                  'observed_event_agent',
-                                 'observed_event_type'],
+                                 'observed_event_type',
+                                 'validity'],
 
               'resources':['resource_id',
                            'resource_name',
@@ -59,7 +60,8 @@ class MOOCdb(object):
                              'submission_is_submitted',
                              'submission_ip',
                              'submission_os',
-                             'submission_agent'],
+                             'submission_agent',
+                             'validity'],
 
               'assessments':['assessment_id',
                              'submission_id',

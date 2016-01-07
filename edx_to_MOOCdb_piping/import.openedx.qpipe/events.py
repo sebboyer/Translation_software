@@ -6,6 +6,7 @@ class Event(object):
     def __init__(self,polished_event):
         self.data = polished_event
         self.duration = 0
+        self.validity=1
 
     def get_observed_event_row(self):
         '''
@@ -27,7 +28,8 @@ class Event(object):
                  'observed_event_os':self['os'],
                  'observed_event_agent':self['agent'],
                  # Additional fields, not in MOOCdb documentation (yet)
-                 'observed_event_type':self['event_type']
+                 'observed_event_type':self['event_type'],
+                 'validity':self.validity
         }
 
     def __getitem__(self, key):
@@ -181,6 +183,7 @@ class ProblemInteraction(Event):
 
     def __init__(self,raw_event):
         super(ProblemInteraction,self).__init__(raw_event)
+        self.validity=1
         
 
     def get_answer(self):
@@ -255,7 +258,8 @@ class ProblemInteraction(Event):
                  'submission_os':self['os'],
                  'submission_agent':self['agent'],
                  'submission_answer':self['answer'],
-                 'submission_is_submitted':self.get_is_submitted() 
+                 'submission_is_submitted':self.get_is_submitted(),
+                 'validity':self.validity 
         }
         
     def get_assessment_row(self):

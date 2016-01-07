@@ -11,7 +11,7 @@ TIMESTAMP_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
 
 ## CSV input files
-COURSE_NAME='mitx-6.002x-2013-spring'
+COURSE_NAME='201x-2013-Spring'
 
 CSV_SOURCE_DIR = '../../../data_copy/enc_copy/data_copy/mitx-6.002x-2013-spring/intermediary_csv/'
 CSV_PREFIX = 'MITx-6.002x-2013_Spring___2014_04_10___tracking_log.json.2015-11-30T10_31_42.979670_72265.sql'
