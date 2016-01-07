@@ -47,17 +47,22 @@ curation_helper = CurationHelper(MOOCDB_DIR)
 
 print '**Processing events**' 
 
+########## For testig only
+print cfg.EDX_TRACK_EVENT
 n_rows=check_output(["wc", "-l",cfg.EDX_TRACK_EVENT])
 n_rows=n_rows.split(" ")
-n_rows=int(n_rows[0])
+n_rows=int(n_rows[7])
+ind_event=0
+##########
 
 Extract=extractor.get_events()
 
-ind_event=0
+
 
 for raw_event in Extract:
-    ind_event+=1
 
+    # For testing only
+    ind_event+=1
     if ind_event%500==0:
         print ' Completed : ', 100*float(ind_event)/float(n_rows),'%'
 
