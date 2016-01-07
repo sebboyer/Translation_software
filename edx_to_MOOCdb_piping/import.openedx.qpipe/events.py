@@ -1,3 +1,5 @@
+import config as cfg
+
 class Event(object):
     '''
     Class generating taking care of the common event
@@ -66,9 +68,9 @@ class Event(object):
         between the event's timestamp and a given end time.
         '''
         self.duration = (end_time - self.data['time']).seconds/60
-        
+
         # Set a max defaut duration
-        self.duration = self.duration if self.duration <= MAX_DURATION_SECONDS else DEFAULT_DURATION_SECONDS
+        self.duration = self.duration if self.duration <= cfg.MAX_DURATION_SECONDS else cfg.DEFAULT_DURATION_SECONDS
         
     
 
