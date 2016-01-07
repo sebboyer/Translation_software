@@ -52,7 +52,7 @@ class CSVExtractor(object):
 
     def next(self):
         event = self.edx_track_event.next()
-        print '* Making joins'
+        # print '* Making joins'# Shut down for debug
         self.get_foreign_values(event, 'answer_fk', ['answer'], self.answer)
         self.get_foreign_values(event, 'correctMap_fk', ['answer_identifier', 'correctness'], self.correct_map)
         return event

@@ -11,17 +11,17 @@ TIMESTAMP_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
 
 ## CSV input files
-COURSE_NAME='dalmooc'
+COURSE_NAME='mitx-6.002x-2013-spring'
 
-CSV_SOURCE_DIR = '/home/ubuntu/dalmooc/intermediary_csv/'
-CSV_PREFIX = 'link5_10x_trace_merged.2014-11-02T23_46_45.622627_28028.sql'
+CSV_SOURCE_DIR = '../../../data_copy/enc_copy/data_copy/mitx-6.002x-2013-spring/intermediary_csv/'
+CSV_PREFIX = 'MITx-6.002x-2013_Spring___2014_04_10___tracking_log.json.2015-11-30T10_31_42.979670_72265.sql'
 
 EDX_TRACK_EVENT = ''.join([CSV_SOURCE_DIR, CSV_PREFIX, '_EdxTrackEventTable.csv'])
 CORRECT_MAP = ''.join([CSV_SOURCE_DIR, CSV_PREFIX, '_CorrectMapTable.csv'])
 ANSWER = ''.join([CSV_SOURCE_DIR, CSV_PREFIX, '_AnswerTable.csv'])
 
 ## Output files
-DEST_DIR = '/home/ubuntu/dalmooc/moocdb_csv/'
+DEST_DIR = '../../../data_copy/enc_copy/data_copy/mitx-6.002x-2013-spring/moocdb_csv/'
 
 ### Hierarchy pretty prints
 RESOURCE_HIERARCHY = DEST_DIR + 'resource_hierarchy.org'

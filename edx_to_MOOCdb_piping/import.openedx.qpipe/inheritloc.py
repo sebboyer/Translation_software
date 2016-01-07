@@ -14,11 +14,11 @@ def no_url(raw_event):
     if current_location.get_sub_unit():
         raw_event['page'] = current_location
         raw_event['inherited'] = 'url'
-        print '[inheritloc.no_url] Inherited location : ' + str( current_location )
+        # print '[inheritloc.no_url] Inherited location : ' + str( current_location ) # Shut down for debug
 
     else:
         raw_event['inherited'] = ''
-        print '[inheritloc.no_url] Location was not inherited because not at sub-unit level.'
+        # print '[inheritloc.no_url] Location was not inherited because not at sub-unit level.'  # Shut down for debug
     
 
 def inherit_seqnum(raw_event):
@@ -44,12 +44,12 @@ def inherit_seqnum(raw_event):
             raw_event['inherited'] = 'seqnum'
             
         else:
-
-            print '[inheritloc.inherit_seqnum] Previous location ( ' + str(current_location) + ' ) has no seqnum.'
+            pass
+            # print '[inheritloc.inherit_seqnum] Previous location ( ' + str(current_location) + ' ) has no seqnum.'
 
     else:
-
-        print '[inheritloc.inherit_seqnum] No inheritance : units did not coincide.'
+        pass
+        # print '[inheritloc.inherit_seqnum] No inheritance : units did not coincide.'
 
 
 
