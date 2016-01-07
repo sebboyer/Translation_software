@@ -1,4 +1,4 @@
-# Author : Quentin Agren <quentin.agren@gmail.com>
+# Author : Sebastien Boyer  (sebboyer@mit.edu)
 
 import sys
 import os 
