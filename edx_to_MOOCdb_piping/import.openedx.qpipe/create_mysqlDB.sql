@@ -1,5 +1,5 @@
-create database 202_test;
-use 202_test;
+create database COURSE_NAME;
+use COURSE_NAME;
 
 -- Create submission table
 CREATE TABLE submissions (
