@@ -14,10 +14,16 @@ from submissions import *
 from util import * 
 from moocdb import MOOCdb
 
+import sys
+sys.path.insert(0, '/home/sebboyer/port/Translation_software/MOOCdb_curation')
+import sql_functions
+
 # For debug 
 # from pdb import set_trace as bp
 import pdb
 from subprocess import check_output
+from subprocess import call
+
 
 
 # pdb.set_trace()
@@ -51,13 +57,11 @@ print '**Processing events**'
 print cfg.EDX_TRACK_EVENT
 n_rows=check_output(["wc", "-l",cfg.EDX_TRACK_EVENT])
 n_rows=n_rows.split(" ")
-n_rows=int(n_rows[7])
+n_rows=int(n_rows[7])   # 0 for linux systems   / 7 for MacOS systems
 ind_event=0
 ##########
 
 Extract=extractor.get_events()
-
-
 
 for raw_event in Extract:
 
@@ -106,3 +110,57 @@ print '* Writing resource hierarchy to : ' + HIERARCHY
 print '* Writing problem hierarchy to : ' + PB_HIERARCHY
 # Close all opened files
 moocdb.close()
+
+
+########## Move file to desired location (accessible from MYSQL DB)
+print 'Move csv files to /tmp folder (accessible from MYSQL)'
+call(['sh move_csv.sh',cfg.COURSE_NAME])
+
+
+
+########################## Create MYSQL DATABASE
+print 'Creating MYSQL Database : '+cfg.COURSE_NAME
+
+## Create the .sql script for DB creation
+fileName='create_mysqlDB.sql'
+toBeReplaced=['COURSE_NAME']
+replaceBy=[cfg.COURSE_NAME]
+create_txt=replaceWordsInFile(fileName,toBeReplaced, replaceBy)
+create_script_name="create_mysqlDB_"+cfg.COURSE_NAME+".sql"
+create_script = open(create_script_name, "w")
+create_script.write(create_txt)
+create_script.close()
+
+## Execute create_script
+check_output(['mysql','-u',usernameSQL,'-p','--local-infile',<create_script_name])
+
+## Delete create_script
+check_output(['rm',create_script_name])
+
+########################## FILL MYSQL DATABASE
+print 'Filling MYSQL Database : '+cfg.COURSE_NAME+' with csv files data'
+
+## Create the .sql script for DB creation
+fileName='copy_to_mysqlDB.sql'
+toBeReplaced=['COURSE_NAME']
+replaceBy=[cfg.COURSE_NAME]
+copy_txt=replaceWordsInFile(fileName,toBeReplaced, replaceBy)
+copy_script_name="copy_mysqlDB_"+cfg.COURSE_NAME+".sql"
+copy_script = open(copy_script_name, "w")
+copy_script.write(copy_txt)
+copy_script.close()
+
+## Execute copy_script
+check_output(['mysql','-u',usernameSQL,'-p','--local-infile',<copy_script_name])
+
+## Delete copy_script
+check_output(['rm',copy_script_name])
+
+
+
+
+
+
+
+
+

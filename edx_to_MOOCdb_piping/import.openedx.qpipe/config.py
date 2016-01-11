@@ -13,7 +13,7 @@ TIMESTAMP_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 ## CSV input files
 COURSE_NAME='201x-2013_Spring'
 
-CSV_SOURCE_DIR = '/Users/sebboyer/Documents/ALFA/data_copy/enc_copy/data_copy/test/intermediary_csv/'
+CSV_SOURCE_DIR = '/home/sebboyer/port/data_copy/201x-2013-Spring/intermediary_csv/'
 CSV_PREFIX = 'test'
 
 EDX_TRACK_EVENT = ''.join([CSV_SOURCE_DIR, CSV_PREFIX, '_EdxTrackEventTable.csv'])
@@ -21,7 +21,7 @@ CORRECT_MAP = ''.join([CSV_SOURCE_DIR, CSV_PREFIX, '_CorrectMapTable.csv'])
 ANSWER = ''.join([CSV_SOURCE_DIR, CSV_PREFIX, '_AnswerTable.csv'])
 
 ## Output files
-DEST_DIR = '/Users/sebboyer/Documents/ALFA/data_copy/enc_copy/data_copy/test/moocdb_csv/'
+DEST_DIR = '/home/sebboyer/port/data_copy/201x-2013-Spring/moocdb_csv/'
 
 ### Hierarchy pretty prints
 RESOURCE_HIERARCHY = DEST_DIR + 'resource_hierarchy.org'
