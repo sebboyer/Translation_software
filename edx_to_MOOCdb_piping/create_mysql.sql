@@ -1,5 +1,5 @@
-create database 201_test;
-
+create database 202_test;
+use 202_test;
 
 -- Create submission table
 CREATE TABLE submissions (
@@ -49,7 +49,7 @@ CREATE TABLE assessments (
 
 
 -- Create Observed_events table
-CREATE TABLE Observed_events (
+CREATE TABLE observed_events (
      observed_event_id         varchar(50)   NOT   NULL,           
      user_id                   varchar(50)   NOT    NULL,           
      url_id                    int(11)       NOT    NULL,           
@@ -151,15 +151,15 @@ CREATE TABLE urls (
 -- Enable file download from local with -local-infile when starting mysql
 
 
--- Copy submissions data
+-- Copy agent data
 LOAD DATA local INFILE '/tmp/moocdb_csv_test/agent.csv'
 INTO TABLE agent
 FIELDS TERMINATED BY ',';
 
--- Copy agent data
-LOAD DATA local INFILE '/tmp/moocdb_csv_test/answer.csv'
-INTO TABLE answer
-FIELDS TERMINATED BY ',';
+-- Copy answer data
+-- LOAD DATA local INFILE '/tmp/moocdb_csv_test/answer.csv'
+-- INTO TABLE answer
+-- FIELDS TERMINATED BY ',';
 
 -- Copy assessments data
 LOAD DATA local INFILE '/tmp/moocdb_csv_test/assessments.csv'
