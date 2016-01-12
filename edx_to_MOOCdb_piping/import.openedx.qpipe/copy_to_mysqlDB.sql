@@ -2,6 +2,7 @@
 -- Copy CSV files from /tmp folder to mySQL DB
 
 use COURSE_NAME;
+SET @@global.local_infile = 1;
 
 -- SET @COURSE_NAME = 'moocdb_csv_test'
 

@@ -17,6 +17,7 @@ from moocdb import MOOCdb
 import sys
 sys.path.insert(0, '/home/sebboyer/port/Translation_software/MOOCdb_curation')
 import sql_functions
+import mysql.connector
 
 # For debug 
 # from pdb import set_trace as bp
@@ -118,6 +119,17 @@ script='/home/sebboyer/port/Translation_software/edx_to_MOOCdb_piping/import.ope
 check_output(['sh',script,cfg.COURSE_NAME])
 
 
+def execute(cnx,cmd):
+    try:
+        sql_functions.executeSQL(cnx,cmd)
+    except mysql.connector.Error as err:
+        print err
+        exit(1)
+
+usernameSQL=input('Enter usernameSQL : ')
+passSQL=input('Enter passSQL : ')
+
+
 ########################## Create MYSQL DATABASE
 print 'Creating MYSQL Database : '+cfg.COURSE_NAME
 
@@ -125,17 +137,13 @@ print 'Creating MYSQL Database : '+cfg.COURSE_NAME
 fileName='create_mysqlDB.sql'
 toBeReplaced=['COURSE_NAME']
 replaceBy=[cfg.COURSE_NAME]
-create_txt=replaceWordsInFile(fileName,toBeReplaced, replaceBy)
-create_script_name="create_mysqlDB_"+cfg.COURSE_NAME+".sql"
-create_script = open(create_script_name, "w")
-create_script.write(create_txt)
-create_script.close()
+cmd=replaceWordsInFile(fileName,toBeReplaced, replaceBy)
+cnx = mysql.connector.connect(user=usernameSQL,password=passSQL)
+cursor = cnx.cursor()
+cursor.execute(cmd)
+cursor.close()
+cnx.close()
 
-## Execute create_script
-check_output(['mysql','-u',usernameSQL,'-p','--local-infile',<create_script_name])
-
-## Delete create_script
-check_output(['rm',create_script_name])
 
 ########################## FILL MYSQL DATABASE
 print 'Filling MYSQL Database : '+cfg.COURSE_NAME+' with csv files data'
@@ -144,21 +152,37 @@ print 'Filling MYSQL Database : '+cfg.COURSE_NAME+' with csv files data'
 fileName='copy_to_mysqlDB.sql'
 toBeReplaced=['COURSE_NAME']
 replaceBy=[cfg.COURSE_NAME]
-copy_txt=replaceWordsInFile(fileName,toBeReplaced, replaceBy)
-copy_script_name="copy_mysqlDB_"+cfg.COURSE_NAME+".sql"
-copy_script = open(copy_script_name, "w")
-copy_script.write(copy_txt)
-copy_script.close()
-
-## Execute copy_script
-check_output(['mysql','-u',usernameSQL,'-p','--local-infile',<copy_script_name])
-
-## Delete copy_script
-check_output(['rm',copy_script_name])
+cmd=sql_functions.replaceWordsInFile(fileName,toBeReplaced, replaceBy)
+cnx = mysql.connector.connect(user=usernameSQL,password=passSQL)
+cursor = cnx.cursor()
+execute(cursor,cmd)
+cursor.close()
+cnx.close()
 
 
 
 
+
+print 'Creating MYSQL Database : '+'204_test'
+
+## Create the .sql script for DB creation
+fileName='create_mysqlDB.sql'
+toBeReplaced=['COURSE_NAME']
+replaceBy=['204_test']
+cmd=sql_functions.replaceWordsInFile(fileName,toBeReplaced, replaceBy)
+cnx = mysql.connector.connect(user=usernameSQL,password=passSQL)
+execute(cnx,cmd)
+
+
+print 'Filling MYSQL Database : '+'203_test+' with csv files data'
+
+## Create the .sql script for DB creation
+fileName='copy_to_mysqlDB.sql'
+toBeReplaced=['COURSE_NAME']
+replaceBy=['203_test']
+cmd=sql_functions.replaceWordsInFile(fileName,toBeReplaced, replaceBy)
+cnx = mysql.connector.connect(user=usernameSQL,password=passSQL,local_infile = 1)
+execute(cnx,cmd)
 
 
 
