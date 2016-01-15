@@ -18,6 +18,7 @@ import sys
 sys.path.insert(0, '/home/sebboyer/port/Translation_software/MOOCdb_curation')
 import sql_functions
 import mysql.connector
+from mysql.connector.constants import ClientFlag
 
 # For debug 
 # from pdb import set_trace as bp
@@ -119,6 +120,9 @@ script='/home/sebboyer/port/Translation_software/edx_to_MOOCdb_piping/import.ope
 check_output(['sh',script,cfg.COURSE_NAME])
 
 
+########################## Create MYSQL DATABASE
+print 'Creating MYSQL Database : '+cfg.COURSE_NAME
+
 def execute(cnx,cmd):
     try:
         sql_functions.executeSQL(cnx,cmd)
@@ -126,23 +130,13 @@ def execute(cnx,cmd):
         print err
         exit(1)
 
-usernameSQL=input('Enter usernameSQL : ')
-passSQL=input('Enter passSQL : ')
-
-
-########################## Create MYSQL DATABASE
-print 'Creating MYSQL Database : '+cfg.COURSE_NAME
-
 ## Create the .sql script for DB creation
 fileName='create_mysqlDB.sql'
 toBeReplaced=['COURSE_NAME']
 replaceBy=[cfg.COURSE_NAME]
-cmd=replaceWordsInFile(fileName,toBeReplaced, replaceBy)
+cmd=sql_functions.replaceWordsInFile(fileName,toBeReplaced, replaceBy)
 cnx = mysql.connector.connect(user=usernameSQL,password=passSQL)
-cursor = cnx.cursor()
-cursor.execute(cmd)
-cursor.close()
-cnx.close()
+execute(cnx,cmd)
 
 
 ########################## FILL MYSQL DATABASE
@@ -153,36 +147,17 @@ fileName='copy_to_mysqlDB.sql'
 toBeReplaced=['COURSE_NAME']
 replaceBy=[cfg.COURSE_NAME]
 cmd=sql_functions.replaceWordsInFile(fileName,toBeReplaced, replaceBy)
-cnx = mysql.connector.connect(user=usernameSQL,password=passSQL)
-cursor = cnx.cursor()
-execute(cursor,cmd)
-cursor.close()
-cnx.close()
+copy_name="copy_to_mysqlDB_"+cfg.COURSE_NAME+".sql"
+copy_script = open(copy_name, "w")
+copy_script.write(cmd)
+copy_script.close()
+shell_cmd="mysql -u "+usernameSQL+" --password='"+passSQL+"' --local-infile < "+copy_name
+call(shell_cmd,shell=True)
+os.remove(copy_name) # not tested
 
 
-
-
-
-print 'Creating MYSQL Database : '+'204_test'
-
-## Create the .sql script for DB creation
-fileName='create_mysqlDB.sql'
-toBeReplaced=['COURSE_NAME']
-replaceBy=['204_test']
-cmd=sql_functions.replaceWordsInFile(fileName,toBeReplaced, replaceBy)
-cnx = mysql.connector.connect(user=usernameSQL,password=passSQL)
-execute(cnx,cmd)
-
-
-print 'Filling MYSQL Database : '+'203_test+' with csv files data'
-
-## Create the .sql script for DB creation
-fileName='copy_to_mysqlDB.sql'
-toBeReplaced=['COURSE_NAME']
-replaceBy=['203_test']
-cmd=sql_functions.replaceWordsInFile(fileName,toBeReplaced, replaceBy)
-cnx = mysql.connector.connect(user=usernameSQL,password=passSQL,local_infile = 1)
-execute(cnx,cmd)
+######################## CURATION of the MYSQL DB 
+print "Curating MYSQL database : "+cfg.COURSE_NAME
 
 
 
