@@ -19,8 +19,10 @@ sys.path.insert(0, '/home/sebboyer/port/Translation_software/MOOCdb_curation')
 import sql_functions
 import mysql.connector
 from mysql.connector.constants import ClientFlag
+import main
 
-# For debug 
+
+# For monitoring
 # from pdb import set_trace as bp
 import pdb
 from subprocess import check_output
@@ -130,6 +132,9 @@ def execute(cnx,cmd):
         print err
         exit(1)
 
+usernameSQL = input('Enter your username for mySQL Database : ')
+passSQL = input('Enter corresponding password : ')
+
 ## Create the .sql script for DB creation
 fileName='create_mysqlDB.sql'
 toBeReplaced=['COURSE_NAME']
@@ -158,6 +163,25 @@ os.remove(copy_name) # not tested
 
 ######################## CURATION of the MYSQL DB 
 print "Curating MYSQL database : "+cfg.COURSE_NAME
+
+dbName = cfg.COURSE_NAME
+userName = usernameSQL
+passwd = passSQL
+dbHost = 'alfa6.csail.mit.edu'
+dbPort = 3306
+startDate = cfg.COURSE_START_DATE
+
+# Postprocesing scripts :
+# 0 = initial_preprocessing.sql
+# 1 = add_submissions_validity_column.sql
+# 2 = problems_populate_problem_week.sql
+# 3 = users_populate_user_last_submission_id.sql
+
+scripts = [0,1,2,3]   
+
+main.curate(dbName = dbName, userName=userName, passwd=passwd, dbHost=dbHost, dbPort=dbPort, startDate=startDate,scripts=scripts)
+
+
 
 
 

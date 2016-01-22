@@ -17,7 +17,7 @@ Pre-processing database before feature extraction
 '''
 
 def curate(dbName = None, userName=None, passwd=None, dbHost=None, dbPort=None,
-        startDate=None):
+        startDate=None,scripts=[]):
 
     if not dbName:
         dbName = '3091x_2013_spring'
@@ -34,30 +34,33 @@ def curate(dbName = None, userName=None, passwd=None, dbHost=None, dbPort=None,
 
 
     # fileName, wordsToBeReplaced, wordsToReplace
-    preprocessing_files = [
+    preprocessing_files_all = [
 
-        #[
-         #'initial_preprocessing.sql',
-         #['moocdb'],
-         #[dbName]
-        #],
+        [
+         'initial_preprocessing.sql',
+         ['moocdb'],
+         [dbName]
+        ],
         [
          'add_submissions_validity_column.sql',
          ['moocdb'],
          [dbName]
         ],
-        #[
-         #'problems_populate_problem_week.sql',
-         #['2012-03-05 12:00:00','moocdb'],
-         #[startDate,dbName]
-        #],
-        #[
-         #'users_populate_user_last_submission_id.sql',
-         #['INT(11)','moocdb'],
-         #['VARCHAR(50)',dbName]
-        #]
+        [
+         'problems_populate_problem_week.sql',
+         ['2012-03-05 12:00:00','moocdb'],
+         [startDate,dbName]
+        ],
+        [
+         'users_populate_user_last_submission_id.sql',
+         ['INT(11)','moocdb'],
+         ['VARCHAR(50)',dbName]
+        ]
 
     ]
+
+    # Choose only scripts mentionned in argument
+    preprocessing_files = [preprocessing_files_all[i] for i in scripts]
 
     # SQL files
     #run_sql_curation_files(dbName, userName, passwd, dbHost, dbPort,
@@ -65,29 +68,30 @@ def curate(dbName = None, userName=None, passwd=None, dbHost=None, dbPort=None,
 
     # Python files
 
-    #Recalculate Durations
-    print "Recalculating durations"
+    #Recalculate Durations = is handled within the qpipe pipeline in the new version
+    # print "Recalculating durations"
         #-durations were originally calculated wrong in observed_events
         #this fixes that
         #takes a long time (~3-4 hours per db)
-    md.modify_durations(dbName, userName, passwd, dbHost, dbPort)
-    print "done"
+    # md.modify_durations(dbName, userName, passwd, dbHost, dbPort)
+    # print "done"
 
-    print "Curating database:"
+    # print "Curating database:"
 
     print "curating submissions table"
-    #sub.curate_submissions(dbName, userName, passwd, dbHost, dbPort)
+    sub.curate_submissions(dbName, userName, passwd, dbHost, dbPort)
     print "done"
 
     print "Curating observed events table"
     #minimum duration for observed_events table:
     min_time = 10
-    #obv.curate_observed_events(dbName, userName, passwd, dbHost, dbPort, min_time)
+    obv.curate_observed_events(dbName, userName, passwd, dbHost, dbPort, min_time)
     print "done"
 
-    print "Curating resource table"
+    # Handled in qpipe in the new version
+    # print "Curating resource table"
     #res.populate_resource_type(dbName, userName, passwd, dbHost, dbPort)
-    print "done"
+    # print "done"
 
 
 
@@ -127,6 +131,6 @@ def run_curation_all(userName=None, passwd = None, dbs = None, dbHost = None,
         print "curating ", db
         curate(db, userName, passwd, 'alfa6.csail.mit.edu', 3306, startDates[i])
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     #run_curation_all()
-    curate(dbName = '201x_2013_spring')
+    # curate(dbName = '201x_2013_spring')
