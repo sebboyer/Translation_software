@@ -1,6 +1,6 @@
 '''
 
-Author : Sebastien Boyer
+Author : Sebastien Boyer (sebboyer@mit.edu)
 Date : Feb 2016
 
 Performs transformation
@@ -81,7 +81,9 @@ curation_helper = CurationHelper(MOOCDB_DIR)
 print cfg.EDX_TRACK_EVENT
 n_rows=check_output(["wc", "-l",cfg.EDX_TRACK_EVENT])
 n_rows=n_rows.split(" ")
-n_rows=int(n_rows[7])   # 0 for linux systems   / 7 for MacOS systems
+n_rows=int(n_rows[0])   # 0 for linux systems   / 7 for MacOS systems
+
+
 ind_event=0
 ##########
 

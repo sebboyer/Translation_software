@@ -20,6 +20,7 @@ Date : Feb 2016
 COURSE_NAME = '201x-2013-Spring'
 COURSE_START_DATE = '2012-03-05 12:00:00' # The format is '2012-03-05 12:00:00'
 DIR = '/home/sebboyer/port/data_copy/'
+CSV_PREFIX = 'MITx-2.01x-2013_Spring___2014_08_10___tracking_log.json.2015-12-16T11_57_39.537698_31862.sql'
 
 TRANS_DIR = '/home/sebboyer/port/Translation_software/'
 MYSQL_HOST = 'alfa6.csail.mit.edu'
@@ -42,7 +43,6 @@ TIMESTAMP_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 # Stanford Courses : %Y-%m-%d %H:%M:%S
 
 CSV_SOURCE_DIR = ''.join([DIR, COURSE_NAME, '/intermediary_csv/'])
-CSV_PREFIX = 'test'
 
 EDX_TRACK_EVENT = ''.join([CSV_SOURCE_DIR, CSV_PREFIX, '_EdxTrackEventTable.csv'])
 CORRECT_MAP = ''.join([CSV_SOURCE_DIR, CSV_PREFIX, '_CorrectMapTable.csv'])
@@ -89,8 +89,8 @@ BOOK = re.compile('book/(?P<booknum>\d{1,2})/(?P<page>\d{1,4})?')
 
 ############## MYSQL setting
 
-source = DIR + COURSE_NAME + '/moocdb_csv'
-dest = '/tmp/' + COURSE_NAME 
+CSV_SOURCE = DIR + COURSE_NAME + '/moocdb_csv'
+CSV_DEST = '/tmp/' + COURSE_NAME 
 
 
 ############# Curation settings 
