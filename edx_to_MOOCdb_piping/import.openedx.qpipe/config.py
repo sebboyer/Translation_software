@@ -12,6 +12,7 @@ TIMESTAMP_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 
 ## CSV input files
 COURSE_NAME='201x-2013-Spring'
+COURSE_START_DATE = '2012-03-05 12:00:00' # The format is '2012-03-05 12:00:00'
 
 CSV_SOURCE_DIR = '/home/sebboyer/port/data_copy/201x-2013-Spring/intermediary_csv/'
 CSV_PREFIX = 'test'

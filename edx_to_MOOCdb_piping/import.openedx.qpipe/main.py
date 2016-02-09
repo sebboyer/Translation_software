@@ -183,6 +183,21 @@ main.curate(dbName = dbName, userName=userName, passwd=passwd, dbHost=dbHost, db
 
 
 
+print "Curating MYSQL database : "+cfg.COURSE_NAME
+
+usernameSQL = 'sebboyer'
+passSQL = '37d(b08F'
+dbName = '203_test'
+userName = usernameSQL
+passwd = passSQL
+dbHost = 'alfa6.csail.mit.edu'
+dbPort = 3306
+startDate = '2012-03-05 12:00:00'
+scripts = [0,1,2,3]   
+
+
+
+
 
 
 
