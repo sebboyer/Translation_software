@@ -1,6 +1,8 @@
 # !/bin/bash/expect
 
-name=$1
 
-mkdir '/tmp/'$name
-cp -r /home/sebboyer/port/data_copy/$name/moocdb_csv /tmp/$name
+source_name = $1
+dest_name=$2
+
+mkdir $name
+cp -r $source_name $name

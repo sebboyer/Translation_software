@@ -1,3 +1,35 @@
+'''
+Config file :
+- INPUT : to be changed according to the course to translate
+- PARAMETER INITIALIZATION : initialize global var 
+
+Last updated :
+Sebastien Boyer (sebboyer@mit.edu)
+
+Date : Feb 2016
+
+'''
+
+
+###############################################################################
+############################### INPUT 
+###############################################################################
+
+
+## COURSE INFORMATION
+COURSE_NAME = '201x-2013-Spring'
+COURSE_START_DATE = '2012-03-05 12:00:00' # The format is '2012-03-05 12:00:00'
+DIR = '/home/sebboyer/port/data_copy/'
+
+TRANS_DIR = '/home/sebboyer/port/Translation_software/'
+MYSQL_HOST = 'alfa6.csail.mit.edu'
+MYSQL_PORT = 3306
+
+
+###############################################################################
+################################ PARAMETER INITIALIZATION
+###############################################################################
+
 # Configuration file
 import re
 
@@ -9,12 +41,7 @@ TIMESTAMP_FORMAT = '%Y-%m-%dT%H:%M:%S.%f'
 # MIT courses : %Y-%m-%dT%H:%M:%S.%f
 # Stanford Courses : %Y-%m-%d %H:%M:%S
 
-
-## CSV input files
-COURSE_NAME='201x-2013-Spring'
-COURSE_START_DATE = '2012-03-05 12:00:00' # The format is '2012-03-05 12:00:00'
-
-CSV_SOURCE_DIR = '/home/sebboyer/port/data_copy/201x-2013-Spring/intermediary_csv/'
+CSV_SOURCE_DIR = ''.join([DIR, COURSE_NAME, '/intermediary_csv/'])
 CSV_PREFIX = 'test'
 
 EDX_TRACK_EVENT = ''.join([CSV_SOURCE_DIR, CSV_PREFIX, '_EdxTrackEventTable.csv'])
@@ -22,7 +49,7 @@ CORRECT_MAP = ''.join([CSV_SOURCE_DIR, CSV_PREFIX, '_CorrectMapTable.csv'])
 ANSWER = ''.join([CSV_SOURCE_DIR, CSV_PREFIX, '_AnswerTable.csv'])
 
 ## Output files
-DEST_DIR = '/home/sebboyer/port/data_copy/201x-2013-Spring/moocdb_csv/'
+DEST_DIR = ''.join([DIR, COURSE_NAME, '/moocdb_csv/'])
 
 ### Hierarchy pretty prints
 RESOURCE_HIERARCHY = DEST_DIR + 'resource_hierarchy.org'
@@ -60,8 +87,15 @@ GET_DOMAIN = re.compile('(?P<domain>^.+://[^/]+)')
 COURSEWARE = re.compile('courseware/(?P<unit>[^/]+)?/?(?P<subunit>[^/]+)?/?(?P<seq>\d{1,2})?')
 BOOK = re.compile('book/(?P<booknum>\d{1,2})/(?P<page>\d{1,4})?')
 
-## Curation settings 
+############## MYSQL setting
+
+source = DIR + COURSE_NAME + '/moocdb_csv'
+dest = '/tmp/' + COURSE_NAME 
+
+
+############# Curation settings 
 MAX_DURATION_SECONDS = 3600
 DEFAULT_DURATION_SECONDS = 100 
+CURATION_DIR = ''.join([TRANS_DIR, 'MOOCdb_curation'])
 
 

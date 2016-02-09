@@ -1,10 +1,26 @@
-# Author : Sebastien Boyer  (sebboyer@mit.edu)
+'''
 
+Author : Sebastien Boyer
+Date : Feb 2016
+
+Performs transformation
+FROM : intermediary csv
+TO : Curated Mysql database in MOOCdb format
+
+
+'''
+
+###############################################################################
+################################ PARAMETER INITIALIZATION
+###############################################################################
+
+# Import general lib
 import sys
 import os 
 import extractor
 import config as cfg
 
+# Import transformation related scripts
 from events import *
 from resources import *
 from eventformatter import *
@@ -14,8 +30,9 @@ from submissions import *
 from util import * 
 from moocdb import MOOCdb
 
+## Import CUration related scripts
 import sys
-sys.path.insert(0, '/home/sebboyer/port/Translation_software/MOOCdb_curation')
+sys.path.insert(0, cfg.CURATION_DIR)
 import sql_functions
 import mysql.connector
 from mysql.connector.constants import ClientFlag
@@ -23,14 +40,9 @@ import main
 
 
 # For monitoring
-# from pdb import set_trace as bp
 import pdb
 from subprocess import check_output
 from subprocess import call
-
-
-
-# pdb.set_trace()
 
 ROOT_DIR = os.getcwd()
 MOOCDB_DIR = cfg.DEST_DIR
@@ -44,6 +56,14 @@ sys.stdout = open(LOG, 'w+')
 HIERARCHY = cfg.RESOURCE_HIERARCHY
 PB_HIERARCHY = cfg.PROBLEM_HIERARCHY
 
+
+
+###############################################################################
+################################ PIPING CSV TRANSFORMATION
+###############################################################################
+print '****** Processing events *******' 
+
+
 # MOOCdb storage interface
 # TODO Apply branching to allow different options
 moocdb = MOOCdb(MOOCDB_DIR)
@@ -55,7 +75,7 @@ event_manager = EventManager(moocdb)
 submission_manager = SubmissionManager(moocdb)
 curation_helper = CurationHelper(MOOCDB_DIR)
 
-print '**Processing events**' 
+
 
 ########## For testig only
 print cfg.EDX_TRACK_EVENT
@@ -69,12 +89,12 @@ Extract=extractor.get_events()
 
 for raw_event in Extract:
 
-    # For testing only
+    # Print state of advancement
     ind_event+=1
     if ind_event%500==0:
         print ' Completed : ', 100*float(ind_event)/float(n_rows),'%'
 
-    # Shut down for debug
+    # Print event (Shut down for debug)
     # print '* Processing event #' + raw_event['event_id'] + ' @ ' + raw_event['page']
     # print '** Applying filter'
 
@@ -116,14 +136,39 @@ print '* Writing problem hierarchy to : ' + PB_HIERARCHY
 moocdb.close()
 
 
+
+###############################################################################
+################################ PARAMETER INITIALIZATION
+###############################################################################
+print '****** Moving moocdb_csv files *******' 
+
+
 ########## Move file to desired location (accessible from MYSQL DB)
 print 'Move csv files to /tmp folder (accessible from MYSQL)'
-script='/home/sebboyer/port/Translation_software/edx_to_MOOCdb_piping/import.openedx.qpipe/'+'move_csv.sh'
-check_output(['sh',script,cfg.COURSE_NAME])
+
+
+script=cfg.TRANS_DIR+'edx_to_MOOCdb_piping/import.openedx.qpipe/'+'move_csv.sh'
+check_output(['sh',script,cfg.CSV_SOURCE,cfg.CSV_DEST])
+
+
+
+###############################################################################
+################################ MYSQL DATABASE CREATION AND CURATION
+###############################################################################
+print '****** Create and Curate MYSQL db from csv files *******' 
 
 
 ########################## Create MYSQL DATABASE
-print 'Creating MYSQL Database : '+cfg.COURSE_NAME
+
+dbName = cfg.COURSE_NAME
+usernameSQL = input('Enter your username for mySQL Database : ')
+passSQL = input('Enter corresponding password : ')
+dbHost = cfg.MYSQL_HOST
+dbPort = cfg.MYSQL_PORT
+startDate = cfg.COURSE_START_DATE
+
+print 'Creating MYSQL Database : '+dbName
+
 
 def execute(cnx,cmd):
     try:
@@ -132,15 +177,13 @@ def execute(cnx,cmd):
         print err
         exit(1)
 
-usernameSQL = input('Enter your username for mySQL Database : ')
-passSQL = input('Enter corresponding password : ')
 
 ## Create the .sql script for DB creation
 fileName='create_mysqlDB.sql'
 toBeReplaced=['COURSE_NAME']
 replaceBy=[cfg.COURSE_NAME]
 cmd=sql_functions.replaceWordsInFile(fileName,toBeReplaced, replaceBy)
-cnx = mysql.connector.connect(user=usernameSQL,password=passSQL)
+cnx = mysql.connector.connect(user=usernameSQL,password=passSQL,host=dbHost, port=dbPort)
 execute(cnx,cmd)
 
 
@@ -164,13 +207,6 @@ os.remove(copy_name) # not tested
 ######################## CURATION of the MYSQL DB 
 print "Curating MYSQL database : "+cfg.COURSE_NAME
 
-dbName = cfg.COURSE_NAME
-userName = usernameSQL
-passwd = passSQL
-dbHost = 'alfa6.csail.mit.edu'
-dbPort = 3306
-startDate = cfg.COURSE_START_DATE
-
 # Postprocesing scripts :
 # 0 = initial_preprocessing.sql
 # 1 = add_submissions_validity_column.sql
@@ -180,20 +216,6 @@ startDate = cfg.COURSE_START_DATE
 scripts = [0,1,2,3]   
 
 main.curate(dbName = dbName, userName=userName, passwd=passwd, dbHost=dbHost, dbPort=dbPort, startDate=startDate,scripts=scripts)
-
-
-
-print "Curating MYSQL database : "+cfg.COURSE_NAME
-
-usernameSQL = 'sebboyer'
-passSQL = '37d(b08F'
-dbName = '203_test'
-userName = usernameSQL
-passwd = passSQL
-dbHost = 'alfa6.csail.mit.edu'
-dbPort = 3306
-startDate = '2012-03-05 12:00:00'
-scripts = [0,1,2,3]   
 
 
 
