@@ -148,9 +148,7 @@ print '****** Moving moocdb_csv files *******'
 ########## Move file to desired location (accessible from MYSQL DB)
 print 'Move csv files to /tmp folder (accessible from MYSQL)'
 
-
-script=cfg.TRANS_DIR+'edx_to_MOOCdb_piping/import.openedx.qpipe/'+'move_csv.sh'
-check_output(['sh',script,cfg.CSV_SOURCE,cfg.CSV_DEST])
+check_output(['cp','-r',cfg.CSV_SOURCE+'/',cfg.CSV_DEST+'/'])
 
 
 
