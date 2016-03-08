@@ -96,7 +96,7 @@ if __name__ == "__main__":
         INT_CSV = ''.join([args.folder,args.course_name,'/intermediary_csv/'])
         MOOC_CSV = ''.join([args.folder,args.course_name,'/moocdb_csv/'])
 
-        if os.path.isdir(LOG_DATA) or os.path.isdir(INT_CSV) or os.path.isdir(MOOC_CSV):
+        if os.path.isdir(LOG_DATA[:-1]) or os.path.isdir(INT_CSV[-1]) or os.path.isdir(MOOC_CSV[-1]):
             print "Careful : folder already exist !"
             print "Didn't touch them."
         else :
@@ -106,13 +106,15 @@ if __name__ == "__main__":
 
         ## Move and Unzip Json files
         LOG_FILES = ''.join([args.folder,args.course_name,'/',args.prefix,'*'])
-        if os.path.isdir(LOG_FILES):
+	print LOG_FILES
+        if os.path.exists(LOG_FILES):
             cmd_queue.append(' '.join(['mv',LOG_FILES,LOG_DATA[:-1]]))  # don't include /
         else:
             print "No such file : ",LOG_FILES
 
         JSON_FILE = ''.join([LOG_DATA,args.prefix,'___tracking_log.json.gz'])
-        if os.path.isdir(JSON_FILE):
+        print JSON_FILE
+	if os.path.exists(JSON_FILE):
             cmd_queue.append(' '.join(['gzip','-d',JSON_FILE]))
         else:
             print "No such file : ",LOG_FILES
