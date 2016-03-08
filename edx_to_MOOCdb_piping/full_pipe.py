@@ -98,16 +98,25 @@ if __name__ == "__main__":
 
         if os.path.isdir(LOG_DATA) or os.path.isdir(INT_CSV) or os.path.isdir(MOOC_CSV):
             print "Careful : folder already exist !"
-
-        cmd_queue.append(' '.join(['mkdir',LOG_DATA]))
-        cmd_queue.append(' '.join(['mkdir',INT_CSV]))
-        cmd_queue.append(' '.join(['mkdir',MOOC_CSV]))
+            print "Didn't touch them."
+        else :
+            cmd_queue.append(' '.join(['mkdir',LOG_DATA]))
+            cmd_queue.append(' '.join(['mkdir',INT_CSV]))
+            cmd_queue.append(' '.join(['mkdir',MOOC_CSV]))
 
         ## Move and Unzip Json files
         LOG_FILES = ''.join([args.folder,args.course_name,'/',args.prefix,'*'])
-        cmd_queue.append(' '.join(['mv',LOG_FILES,LOG_DATA[:-1]]))  # don't include /
+        if os.path.isdir(LOG_FILES):
+            cmd_queue.append(' '.join(['mv',LOG_FILES,LOG_DATA[:-1]]))  # don't include /
+        else:
+            print "No such file : ",LOG_FILES
+
         JSON_FILE = ''.join([LOG_DATA,args.prefix,'___tracking_log.json.gz'])
-        cmd_queue.append(' '.join(['gzip','-d',JSON_FILE]))
+        if os.path.isdir(JSON_FILE):
+            cmd_queue.append(' '.join(['gzip','-d',JSON_FILE]))
+        else:
+            print "No such file : ",LOG_FILES
+        
 
         for cmd in cmd_queue:
             subprocess.call(cmd, shell=True)
