@@ -20,6 +20,8 @@ python full_pipe.py FOLDER/ COURSE_NAME COURSE_PREFIX
 import subprocess
 import sys
 import argparse
+import os
+
 
 
 
@@ -94,6 +96,9 @@ if __name__ == "__main__":
         INT_CSV = ''.join([args.folder,args.course_name,'/intermediary_csv/'])
         MOOC_CSV = ''.join([args.folder,args.course_name,'/moocdb_csv/'])
 
+        if os.path.isdir(LOG_DATA) or os.path.isdir(INT_CSV) or os.path.isdir(MOOC_CSV):
+            print "Careful : folder already exist !"
+
         cmd_queue.append(' '.join(['mkdir',LOG_DATA]))
         cmd_queue.append(' '.join(['mkdir',INT_CSV]))
         cmd_queue.append(' '.join(['mkdir',MOOC_CSV]))
@@ -104,8 +109,8 @@ if __name__ == "__main__":
         JSON_FILE = ''.join([LOG_DATA,args.prefix,'___tracking_log.json.gz'])
         cmd_queue.append(' '.join(['gzip','-d',JSON_FILE]))
 
-        # for cmd in cmd_queue:
-        #     subprocess.call(cmd, shell=True)
+        for cmd in cmd_queue:
+            subprocess.call(cmd, shell=True)
 
 
     ################################################################
@@ -122,8 +127,8 @@ if __name__ == "__main__":
         JSON_FILE = ''.join([LOG_DATA,args.prefix,'___tracking_log.json'])
         cmd_queue.append(' '.join(['bash',JSON_TO_CSV_SCRIPT,INT_CSV,JSON_FILE]))
 
-        # for cmd in cmd_queue:
-        #     subprocess.call(cmd, shell=True)
+        for cmd in cmd_queue:
+            subprocess.call(cmd, shell=True)
 
     ################################################################
     ############ Launch QPIPE
@@ -132,7 +137,7 @@ if __name__ == "__main__":
     question = 'Do you want to create folder environment for Log transformation ?'
 
     if query_yes_no(question):
-        
+
         print "********  Transform csv and populate MYSQL Table **********" 
 
 
