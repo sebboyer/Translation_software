@@ -26,6 +26,7 @@ import os
 
 
 JSON_TO_CSV_SCRIPT = 'import.openedx.apipe/scripts/transformGivenLogfiles.sh'
+QPIPE_FOLDER = 'edx_to_MOOCdb_piping/import.openedx.qpipe/'
 
 
 
@@ -88,7 +89,7 @@ if __name__ == "__main__":
     ############  Create environment for log data translation
     ################################################################
 
-    question = 'Do you want to create folder environment for Log transformation ?'
+    question = '###### Step 1 : Do you want to create folder environment for Log transformation ?'
 
 
     if query_yes_no(question):
@@ -129,7 +130,7 @@ if __name__ == "__main__":
     ############  Launch APIPE (translation from json to intermediary csv)
     ################################################################
 
-    question = 'Do you want to translate log files into csv ?'
+    question = '###### Step 2 : Do you want to translate log files into csv ?'
     
     if query_yes_no(question):
 
@@ -146,11 +147,69 @@ if __name__ == "__main__":
     ############ Launch QPIPE
     ################################################################
 
-    question = 'Do you want to create folder environment for Log transformation ?'
+    question = '###### Step 3 : Do you want to enter QPIPE ?'
 
     if query_yes_no(question):
 
-        print "********  Transform csv and populate MYSQL Table **********" 
+        sys.path.append(QPIPE_FOLDER)
+        import main
+
+        question = '## Step 3.1 : Do you want to process events ?'
+        if query_yes_no(question):
+            print "todo"
+            # main.process_events()
+
+        question = '## Step 3.2 : Do you want to move csv files?'
+        if query_yes_no(question):
+            print "todo"
+            # main.move_csv()
+
+        question = '## Step 3.3 : Do you want to create MYSQL database ?'
+        if query_yes_no(question):
+            print "todo"
+            # main.create_mysql()
+
+        question = '## Step 3.4 : Do you want to fill MYSQL database ?'
+        if query_yes_no(question):
+            print "todo"
+            # main.fill_mysql()
+
+        question = '## Step 3.5 : Do you want to curate MYSQL database ?'
+        if query_yes_no(question):
+            print "todo"
+            # main.curate_mysql()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
