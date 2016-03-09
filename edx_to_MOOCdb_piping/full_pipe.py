@@ -79,6 +79,11 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
+
+    LOG_DATA = ''.join([args.folder,args.course_name,'/log_data/'])
+    INT_CSV = ''.join([args.folder,args.course_name,'/intermediary_csv/'])
+    MOOC_CSV = ''.join([args.folder,args.course_name,'/moocdb_csv/'])
+
     ################################################################
     ############  Create environment for log data translation
     ################################################################
@@ -92,10 +97,6 @@ if __name__ == "__main__":
         cmd_queue = []
 
         ## Create directories
-        LOG_DATA = ''.join([args.folder,args.course_name,'/log_data/'])
-        INT_CSV = ''.join([args.folder,args.course_name,'/intermediary_csv/'])
-        MOOC_CSV = ''.join([args.folder,args.course_name,'/moocdb_csv/'])
-
         if os.path.isdir(LOG_DATA[:-1]) or os.path.isdir(INT_CSV[-1]) or os.path.isdir(MOOC_CSV[-1]):
             print "Careful : folder already exist !"
             print "Didn't touch them."
