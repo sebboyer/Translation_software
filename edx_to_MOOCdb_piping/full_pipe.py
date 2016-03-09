@@ -26,7 +26,7 @@ import os
 
 
 JSON_TO_CSV_SCRIPT = 'import.openedx.apipe/scripts/transformGivenLogfiles.sh'
-QPIPE_FOLDER = 'edx_to_MOOCdb_piping/import.openedx.qpipe/'
+QPIPE_FOLDER = '/home/sebboyer/port/Translation_software/edx_to_MOOCdb_piping/import.openedx.qpipe/'
 
 
 

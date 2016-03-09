@@ -209,7 +209,7 @@ def fill_mysql():
     copy_script.close()
     shell_cmd="mysql -u "+usernameSQL+" --password='"+passSQL+"' --local-infile < "+copy_name
     call(shell_cmd,shell=True)
-os.remove(copy_name) # not tested
+    os.remove(copy_name) # not tested
 
 
 ######################## CURATION of the MYSQL DB 
