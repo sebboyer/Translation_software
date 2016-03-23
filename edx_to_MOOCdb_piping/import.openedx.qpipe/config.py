@@ -17,10 +17,10 @@ Date : Feb 2016
 
 
 ## COURSE INFORMATION
-COURSE_NAME = '201x-2013-Spring'
-COURSE_START_DATE = '2012-03-05 12:00:00' # The format is '2012-03-05 12:00:00'
+COURSE_NAME = 'mitx-3.086x-2013-sond'
+COURSE_START_DATE = '2013-16-09 12:00:00' # The format is '2012-03-05 12:00:00'
 DIR = '/home/sebboyer/port/data_copy/'
-CSV_PREFIX = 'MITx-2.01x-2013_Spring___2014_08_10___tracking_log.json.2015-12-16T11_57_39.537698_31862.sql'
+CSV_PREFIX = 'MITx-3.086x-2013_SOND___2014_08_17___tracking_log.json.2016-03-09T12_29_48.037470_13848.sql'
 
 TRANS_DIR = '/home/sebboyer/port/Translation_software/'
 MYSQL_HOST = 'alfa6.csail.mit.edu'

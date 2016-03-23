@@ -150,14 +150,12 @@ if __name__ == "__main__":
     question = '###### Step 3 : Do you want to enter QPIPE ?'
 
     if query_yes_no(question):
-
         sys.path.append(QPIPE_FOLDER)
-        import main
+        import qpipe
 
         question = '## Step 3.1 : Do you want to process events ?'
         if query_yes_no(question):
-            print "todo"
-            # main.process_events()
+            qpipe.process_events()
 
         question = '## Step 3.2 : Do you want to move csv files?'
         if query_yes_no(question):
