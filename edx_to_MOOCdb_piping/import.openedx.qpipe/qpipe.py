@@ -167,8 +167,9 @@ def create_mysql():
 
     ########################## Create MYSQL DATABASE
     dbName = cfg.COURSE_NAME
-    usernameSQL = input('Enter your username for mySQL Database : ')
-    passSQL = input('Enter corresponding password : ')
+    usernameSQL = str(input('Enter your username for mySQL Database : '))
+    passSQL = str(input('Enter corresponding password : '))
+    db_name = str(input('Enter DataBase Name to create : '))
     dbHost = cfg.MYSQL_HOST
     dbPort = cfg.MYSQL_PORT
     startDate = cfg.COURSE_START_DATE
@@ -185,12 +186,14 @@ def create_mysql():
 
 
     ## Create the .sql script for DB creation
-    fileName='create_mysqlDB.sql'
+    fileName= cfg.CREATION_MYSQL_SCRIPT
     toBeReplaced=['COURSE_NAME']
-    replaceBy=[cfg.COURSE_NAME]
+    replaceBy=[db_name]
     cmd=sql_functions.replaceWordsInFile(fileName,toBeReplaced, replaceBy)
     cnx = mysql.connector.connect(user=usernameSQL,password=passSQL,host=dbHost, port=dbPort)
-    execute(cnx,cmd)
+    cur = cnx.cursor()
+    cur.execute(cmd)
+   
 
 
 ########################## FILL MYSQL DATABASE
@@ -199,9 +202,13 @@ def fill_mysql():
     print 'Filling MYSQL Database : '+cfg.COURSE_NAME+' with csv files data'
 
     ## Create the .sql script for DB creation
-    fileName='copy_to_mysqlDB.sql'
+    usernameSQL = str(input('Enter your username for mySQL Database : '))
+    passSQL = str(input('Enter corresponding password : '))
+    db_name = str(input('Enter DataBase Name to fill : '))
+
+    fileName= cfg.COPY_MYSQL_SCRIPT
     toBeReplaced=['COURSE_NAME']
-    replaceBy=[cfg.COURSE_NAME]
+    replaceBy=[db_name]
     cmd=sql_functions.replaceWordsInFile(fileName,toBeReplaced, replaceBy)
     copy_name="copy_to_mysqlDB_"+cfg.COURSE_NAME+".sql"
     copy_script = open(copy_name, "w")
@@ -215,6 +222,10 @@ def fill_mysql():
 ######################## CURATION of the MYSQL DB 
 def curate_mysql():
     print "Curating MYSQL database : "+cfg.COURSE_NAME
+
+    usernameSQL = str(input('Enter your username for mySQL Database : '))
+    passSQL = str(input('Enter corresponding password : '))
+    db_name = str(input('Enter DataBase Name to curate : '))
 
     # Postprocesing scripts :
     # 0 = initial_preprocessing.sql

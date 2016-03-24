@@ -89,6 +89,8 @@ BOOK = re.compile('book/(?P<booknum>\d{1,2})/(?P<page>\d{1,4})?')
 
 ############## MYSQL setting
 
+CREATION_MYSQL_SCRIPT = '/home/sebboyer/port/Translation_software/edx_to_MOOCdb_piping/import.openedx.qpipe/create_mysqlDB.sql'
+COPY_MYSQL_SCRIPT = '/home/sebboyer/port/Translation_software/edx_to_MOOCdb_piping/import.openedx.qpipe/copy_to_mysqlDB.sql'
 CSV_SOURCE = DIR + COURSE_NAME + '/moocdb_csv'
 CSV_DEST = '/tmp/' + COURSE_NAME 
 

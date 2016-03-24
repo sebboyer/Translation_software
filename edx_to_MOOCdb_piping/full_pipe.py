@@ -160,17 +160,17 @@ if __name__ == "__main__":
         question = '## Step 3.2 : Do you want to move csv files?'
         if query_yes_no(question):
             print "todo"
-            # main.move_csv()
+            qpipe.move_csv()
 
         question = '## Step 3.3 : Do you want to create MYSQL database ?'
         if query_yes_no(question):
             print "todo"
-            # main.create_mysql()
+            qpipe.create_mysql()
 
         question = '## Step 3.4 : Do you want to fill MYSQL database ?'
         if query_yes_no(question):
             print "todo"
-            # main.fill_mysql()
+            qpipe.fill_mysql()
 
         question = '## Step 3.5 : Do you want to curate MYSQL database ?'
         if query_yes_no(question):
