@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#/usr/bin/env python
 
 '''
 
@@ -88,7 +88,7 @@ if __name__ == "__main__":
     ################################################################
     ############  Create environment for log data translation
     ################################################################
-
+    
     question = '###### Step 1 : Do you want to create folder environment for Log transformation ?'
 
 
@@ -138,8 +138,8 @@ if __name__ == "__main__":
         cmd_queue = []
 
         JSON_FILE = ''.join([LOG_DATA,args.prefix,'___tracking_log.json'])
-        cmd_queue.append(' '.join(['bash',JSON_TO_CSV_SCRIPT,INT_CSV,JSON_FILE]))
-
+        cmd_queue.append(' '.join(['sh',JSON_TO_CSV_SCRIPT,INT_CSV,JSON_FILE]))
+	print cmd_queue[0]
         for cmd in cmd_queue:
             subprocess.call(cmd, shell=True)
 
@@ -159,23 +159,19 @@ if __name__ == "__main__":
 
         question = '## Step 3.2 : Do you want to move csv files?'
         if query_yes_no(question):
-            print "todo"
             qpipe.move_csv()
 
         question = '## Step 3.3 : Do you want to create MYSQL database ?'
         if query_yes_no(question):
-            print "todo"
             qpipe.create_mysql()
 
         question = '## Step 3.4 : Do you want to fill MYSQL database ?'
         if query_yes_no(question):
-            print "todo"
             qpipe.fill_mysql()
-
-        question = '## Step 3.5 : Do you want to curate MYSQL database ?'
-        if query_yes_no(question):
-            print "todo"
-            # main.curate_mysql()
+  
+	question = '## Step 3.5 : Do you want to curate MYSQL database ?'
+	if query_yes_no(question):
+        	qpipe.curate_mysql()
 
 
 

@@ -57,8 +57,9 @@ CONFIG_DIR = '/home/sebboyer/port/Translation_software/edx_to_MOOCdb_piping/impo
 HIERARCHY = cfg.RESOURCE_HIERARCHY
 PB_HIERARCHY = cfg.PROBLEM_HIERARCHY
 
-
-
+dbHost = cfg.MYSQL_HOST
+dbPort = cfg.MYSQL_PORT
+startDate = cfg.COURSE_START_DATE
 ###############################################################################
 ################################ PIPING CSV TRANSFORMATION
 ###############################################################################
@@ -166,15 +167,11 @@ def create_mysql():
     print '****** Create and Curate MYSQL db from csv files *******' 
 
     ########################## Create MYSQL DATABASE
-    dbName = cfg.COURSE_NAME
     usernameSQL = str(input('Enter your username for mySQL Database : '))
     passSQL = str(input('Enter corresponding password : '))
     db_name = str(input('Enter DataBase Name to create : '))
-    dbHost = cfg.MYSQL_HOST
-    dbPort = cfg.MYSQL_PORT
-    startDate = cfg.COURSE_START_DATE
 
-    print 'Creating MYSQL Database : '+dbName
+    print 'Creating MYSQL Database : '+db_name
 
 
     def execute(cnx,cmd):
@@ -207,8 +204,8 @@ def fill_mysql():
     db_name = str(input('Enter DataBase Name to fill : '))
 
     fileName= cfg.COPY_MYSQL_SCRIPT
-    toBeReplaced=['COURSE_NAME']
-    replaceBy=[db_name]
+    toBeReplaced=['COURSE_NAME','DB_NAME']
+    replaceBy=[cfg.COURSE_NAME,db_name]
     cmd=sql_functions.replaceWordsInFile(fileName,toBeReplaced, replaceBy)
     copy_name="copy_to_mysqlDB_"+cfg.COURSE_NAME+".sql"
     copy_script = open(copy_name, "w")
@@ -235,7 +232,7 @@ def curate_mysql():
 
     scripts = [0,1,2,3]   
 
-    main.curate(dbName = dbName, userName=userName, passwd=passwd, dbHost=dbHost, dbPort=dbPort, startDate=startDate,scripts=scripts)
+    main.curate(dbName = db_name, userName=usernameSQL, passwd=passSQL, dbHost=dbHost, dbPort=dbPort, startDate=startDate,scripts=scripts)
 
 
 

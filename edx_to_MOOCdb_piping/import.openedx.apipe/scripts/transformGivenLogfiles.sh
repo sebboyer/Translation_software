@@ -35,6 +35,6 @@ thisScriptDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 echo "Transform-only start transform: `date`" >> /tmp/transformOnly.txt
 #time parallel --gnu --progress $thisScriptDir/json2sql.py  -t csv $destDir ::: ${@};
-time $thisScriptDir/json2sql.py  -t csv $destDir ${@};
+time $thisScriptDir/import.openedx.apipe/scripts/json2sql.py  -t csv $destDir ${@};
 echo "Transform-only transform done: `date`" >> /tmp/transformOnly.txt
 
