@@ -5,8 +5,9 @@ import os
 #curation
 import modify_durations as md
 import resources as res
-import submissions as sub
+import submissions_curation as sub
 import observed_events as obv
+import test as test
 '''
 
 Author : Sebastien Boyer
@@ -15,7 +16,6 @@ Pre-processing database before feature extraction
 
 
 '''
-
 def curate(dbName = None, userName=None, passwd=None, dbHost=None, dbPort=None,
         startDate=None,scripts=[]):
 

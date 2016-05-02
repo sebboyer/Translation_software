@@ -18,12 +18,17 @@ def curate_submissions(dbName, userName, passwd, host, port):
     conn = openSQLConnectionP(dbName, userName, passwd, host, port)
     cursor = conn.cursor()
 
+    ### Add validity column
+    add_validity = '''ALTER TABLE `%s`.submissions ADD validity int(1)''' % (dbName)
+
     invalidate_submissions_first_pass = '''
         UPDATE `%s`.submissions
         SET validity = 0
         WHERE submission_attempt_number < 0
         OR   submission_is_submitted != 1
     ''' % (dbName)
+
+    cursor.execute(add_validity)
     cursor.execute(invalidate_submissions_first_pass)
     conn.commit()
     cursor.close()
