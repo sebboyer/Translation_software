@@ -1,7 +1,14 @@
 Translation_software
 ====================
-![alt tag](https://raw.githubusercontent.com/MOOCdb/FeatureExtraction/master/tree.jpg?token=ADFoJbxQDtfNx94ODmkrAPxqp06Y1z8cks5Vd14fwA%3D%3D)
 
-Check out `MOOCdb_curation/main.py` for an example of how to use.
+This software turns the log-files from a MOOC course into a MYSQL Database containing simple features per students and per weeks.
 
-More documentation to follow.
+```
+python full_pipe.py FOLDER/ COURSE_NAME COURSE_PREFIX
+```
+where 
+
+- ```FOLDER/``` contains your 
+- ```COURSE_NAME``` is the name of your course as 
+- ```COURSE_PREFIX```
+
